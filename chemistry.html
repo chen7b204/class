@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>墨出青松烟 · 松烟墨里的化学 | 初中化学互动课堂</title>
+<style>
+/* ========== 基础与主题（宣纸 · 墨 · 朱红 · 青绿） ========== */
+:root{
+  --paper:#f4f0e3; --paper2:#ede8d8; --ink:#2b2721; --ink2:#5a5348;
+  --red:#b23b28; --red-d:#8e2d1f; --teal:#3d6b55; --gold:#a67c2e;
+  --chem:#b23b28; --phys:#3d6b55;
+  --card:#fbf8ee; --line:#d8d1bd;
+  --shadow:0 10px 30px rgba(43,39,33,.10);
+  font-size:17px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Kaiti SC","STKaiti","KaiTi","Noto Serif SC",serif;
+  background:var(--paper); color:var(--ink); line-height:1.75;
+  background-image:
+    radial-gradient(ellipse 1200px 500px at 50% -100px, rgba(178,59,40,.05), transparent),
+    repeating-linear-gradient(0deg, transparent 0 29px, rgba(43,39,33,.018) 29px 30px);
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+h2.sec{font-size:1.9rem;letter-spacing:.12em;text-align:center;margin:0 0 6px}
+.sec-sub{text-align:center;color:var(--ink2);font-size:1.02rem;margin-bottom:30px}
+.sec-sub b{color:var(--red)}
+.badge{display:inline-block;font-size:.86rem;padding:2px 12px;border-radius:99px;letter-spacing:.15em;vertical-align:middle}
+.badge.chem{background:rgba(178,59,40,.12);color:var(--chem);border:1px solid rgba(178,59,40,.4)}
+.badge.phys{background:rgba(61,107,85,.12);color:var(--phys);border:1px solid rgba(61,107,85,.4)}
+
+/* ========== 顶部导航 ========== */
+nav.top{
+  position:sticky;top:0;z-index:50;background:rgba(244,240,227,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+nav.top .wrap{display:flex;align-items:center;gap:8px;height:56px}
+nav.top .brand{font-weight:bold;letter-spacing:.2em;color:var(--red);font-size:1.1rem;margin-right:auto}
+nav.top a{color:var(--ink2);text-decoration:none;font-size:.95rem;padding:6px 13px;border-radius:99px;letter-spacing:.1em;white-space:nowrap}
+nav.top a:hover,nav.top a.on{background:rgba(178,59,40,.1);color:var(--red)}
+
+/* ========== 首屏 ========== */
+header.hero{padding:70px 0 46px;text-align:center;position:relative;overflow:hidden}
+header.hero .seal{
+  display:inline-block;background:var(--red);color:#f7f2e4;font-size:1.05rem;
+  padding:10px 16px;letter-spacing:.5em;text-indent:.5em;border-radius:6px;margin-bottom:22px;
+  box-shadow:3px 3px 0 rgba(43,39,33,.15);transform:rotate(-2deg);
+}
+header.hero h1{font-size:3rem;letter-spacing:.18em;line-height:1.3}
+header.hero .quote{margin-top:14px;color:var(--ink2);font-size:1.15rem;letter-spacing:.1em}
+header.hero .quote i{color:var(--red);font-style:normal}
+header.hero .lead{max-width:760px;margin:22px auto 0;font-size:1.08rem;color:var(--ink2)}
+.soot-bg{position:absolute;inset:0;pointer-events:none;opacity:.5}
+
+/* ========== 通用卡片 ========== */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.kp{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line)}
+.kp:last-child{border-bottom:none}
+.kp .ico{flex:0 0 30px;height:30px;border-radius:50%;background:rgba(61,107,85,.12);color:var(--teal);
+  display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1rem}
+.kp p{font-size:1rem}
+.kp p b{color:var(--red)}
+.kp p .hl{background:linear-gradient(transparent 62%, rgba(166,124,46,.35) 0);font-weight:bold}
+
+/* ========== 一、窑烧实验台 ========== */
+#lab .grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:26px;align-items:stretch}
+#labCanvasBox{padding:14px;position:relative}
+#labCanvas{width:100%;display:block;border-radius:8px;background:#181510}
+.lab-tip{position:absolute;left:20px;top:16px;color:#cfc8b4;font-size:.88rem;letter-spacing:.1em;opacity:.85}
+.air-row{display:flex;align-items:center;gap:14px;margin-top:12px;padding:0 6px}
+.air-row label{font-size:1rem;white-space:nowrap;letter-spacing:.08em}
+.air-row input[type=range]{flex:1;accent-color:var(--red);height:6px}
+.air-val{font-size:1rem;min-width:118px;color:var(--ink2)}
+.air-val b{color:var(--red)}
+.eq-panel{padding:20px 22px;display:flex;flex-direction:column;gap:14px}
+.eq-main{font-size:1.5rem;letter-spacing:.06em;text-align:center;padding:16px 8px;border-radius:10px;
+  background:rgba(43,39,33,.04);border:1px solid var(--line);transition:.4s}
+.eq-main small{display:block;font-size:.92rem;color:var(--ink2);margin-top:8px;letter-spacing:.12em}
+.eq-main .cond{font-size:.85rem;color:var(--red);border:1px solid rgba(178,59,40,.45);border-radius:6px;padding:0 6px;margin:0 4px}
+.eq-note{font-size:.98rem;color:var(--ink2)}
+.eq-note b{color:var(--ink)}
+.mode-tag{align-self:center}
+
+/* ========== 二、八步流程 ========== */
+.timeline{display:flex;gap:0;overflow-x:auto;padding:6px 2px 14px;scrollbar-width:thin}
+.tl-item{flex:1;min-width:104px;text-align:center;cursor:pointer;position:relative;padding:14px 4px 10px;
+  border-radius:10px;transition:.25s;user-select:none}
+.tl-item:hover{background:rgba(178,59,40,.06)}
+.tl-item .n{width:34px;height:34px;line-height:34px;border-radius:50%;margin:0 auto 6px;
+  background:#e6dfca;color:var(--ink2);font-weight:bold;transition:.3s}
+.tl-item .t{font-size:.98rem;letter-spacing:.08em;color:var(--ink2)}
+.tl-item .c{display:block;font-size:.74rem;margin-top:3px;letter-spacing:.1em}
+.tl-item.phys .c{color:var(--phys)} .tl-item.chem .c{color:var(--chem)}
+.tl-item.on .n{background:var(--red);color:#f7f2e4;transform:scale(1.12);box-shadow:0 4px 12px rgba(178,59,40,.35)}
+.tl-item.on .t{color:var(--red);font-weight:bold}
+.tl-item.on::after{content:"";position:absolute;left:20%;right:20%;bottom:-2px;height:3px;border-radius:2px;background:var(--red)}
+.step-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:26px;align-items:stretch}
+.scene-box{padding:16px;display:flex;align-items:center;justify-content:center;min-height:320px}
+.scene-box svg{width:100%;height:100%;max-height:360px}
+.step-info{padding:24px 26px}
+.step-info h3{font-size:1.55rem;letter-spacing:.1em;margin-bottom:2px}
+.step-info .sub{color:var(--ink2);margin-bottom:14px;font-size:1rem}
+.step-ctrl{display:flex;gap:12px;justify-content:center;margin-top:20px}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:inherit;
+  font-size:1rem;letter-spacing:.15em;padding:9px 26px;border-radius:99px;cursor:pointer;transition:.25s}
+.btn:hover{border-color:var(--red);color:var(--red);box-shadow:0 4px 14px rgba(178,59,40,.15)}
+.btn.primary{background:var(--red);border-color:var(--red);color:#f7f2e4}
+.btn.primary:hover{background:var(--red-d);color:#fff}
+.saying{margin-top:14px;padding:10px 16px;border-left:3px solid var(--gold);background:rgba(166,124,46,.07);
+  font-size:.98rem;color:var(--ink2);border-radius:0 8px 8px 0}
+
+/* ========== 三、方程式大卡 ========== */
+.eq-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+.eq-card{padding:24px 22px;text-align:center;position:relative;transition:.3s}
+.eq-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(43,39,33,.14)}
+.eq-card .tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  font-size:.82rem;letter-spacing:.2em;background:var(--red);color:#f7f2e4;padding:3px 14px;border-radius:99px;white-space:nowrap}
+.eq-card .f{font-size:1.6rem;margin:14px 0 10px;letter-spacing:.05em}
+.eq-card .f .cond{font-size:.82rem;color:var(--red);border:1px solid rgba(178,59,40,.45);border-radius:6px;padding:0 6px;vertical-align:middle}
+.eq-card .d{font-size:.95rem;color:var(--ink2);text-align:left}
+.eq-card .d b{color:var(--ink)}
+.eq-card.warn .tag{background:#7a6a2c}
+
+/* ========== 四、成分解析 ========== */
+#comp .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:26px;align-items:stretch}
+#inkSvg{padding:18px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+#inkSvg svg{width:100%;max-width:420px}
+.hot{cursor:pointer;transition:.3s}
+.hot:hover .ring,.hot.act .ring{stroke:var(--red);stroke-width:3}
+.comp-detail{padding:24px 26px;display:flex;flex-direction:column}
+.comp-detail h3{font-size:1.4rem;margin-bottom:4px;letter-spacing:.08em}
+.comp-detail .pct{color:var(--red);font-size:1.05rem;margin-bottom:12px}
+.bar{height:12px;border-radius:6px;background:#e8e2cf;overflow:hidden;margin-bottom:16px}
+.bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--red),#d4634f);transition:width .6s}
+
+/* ========== 五、变化分类 ========== */
+.sort-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.sort-col{padding:22px 24px}
+.sort-col h3{font-size:1.3rem;letter-spacing:.12em;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sort-col .dot{width:14px;height:14px;border-radius:50%}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{padding:7px 16px;border-radius:99px;border:1px solid var(--line);font-size:.98rem;background:#fff8;transition:.25s;cursor:default}
+.sort-col.chem-c .chip{border-color:rgba(178,59,40,.4);background:rgba(178,59,40,.07)}
+.sort-col.phys-c .chip{border-color:rgba(61,107,85,.4);background:rgba(61,107,85,.07)}
+.moral{margin-top:22px;padding:18px 24px;text-align:center;font-size:1.15rem;letter-spacing:.06em}
+.moral b{color:var(--red)}
+
+/* ========== 六、随堂测验 ========== */
+.q-item{padding:22px 26px;margin-bottom:18px}
+.q-item h4{font-size:1.12rem;margin-bottom:14px}
+.q-item h4 .qno{color:var(--red);margin-right:8px}
+.opts{display:grid;gap:10px}
+.opt{text-align:left;font-family:inherit;font-size:1rem;padding:10px 16px;border-radius:10px;
+  border:1px solid var(--line);background:#fff8;cursor:pointer;transition:.2s;color:var(--ink)}
+.opt:hover{border-color:var(--red);background:rgba(178,59,40,.05)}
+.opt.right{border-color:#3a8a5f;background:rgba(58,138,95,.12);color:#1f5c3d;font-weight:bold}
+.opt.wrong{border-color:var(--red);background:rgba(178,59,40,.10);color:var(--red-d)}
+.opt:disabled{cursor:default}
+.q-expl{display:none;margin-top:12px;font-size:.95rem;color:var(--ink2);padding:10px 14px;
+  background:rgba(166,124,46,.08);border-radius:8px;border-left:3px solid var(--gold)}
+.q-expl b{color:var(--red)}
+#quizDone{text-align:center;padding:26px;display:none}
+#quizDone .score{font-size:2.6rem;color:var(--red);font-weight:bold}
+#quizDone p{color:var(--ink2);margin-top:6px;font-size:1.05rem}
+
+/* ========== 页脚 ========== */
+footer{margin-top:70px;padding:34px 0 44px;border-top:1px solid var(--line);text-align:center;color:var(--ink2);font-size:.95rem}
+footer .motto{font-size:1.2rem;letter-spacing:.3em;color:var(--ink);margin-bottom:8px}
+
+section.block{padding:64px 0 10px}
+@media (max-width:900px){
+  :root{font-size:15.5px}
+  header.hero h1{font-size:2.2rem}
+  #lab .grid,.step-stage,#comp .grid{grid-template-columns:1fr}
+  .sort-grid{grid-template-columns:1fr}
+  nav.top .wrap{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= 顶部导航 ================= -->
+<nav class="top">
+  <div class="wrap">
+    <span class="brand">墨出青松烟</span>
+    <a href="#lab">燃烧实验台</a>
+    <a href="#steps">八步流程</a>
+    <a href="#eq">化学反应</a>
+    <a href="#comp">成分解析</a>
+    <a href="#sort">变化分类</a>
+    <a href="#quiz">随堂测验</a>
+  </div>
+</nav>
+
+<!-- ================= 首屏 ================= -->
+<header class="hero">
+  <canvas class="soot-bg" id="sootBg"></canvas>
+  <div class="wrap" style="position:relative">
+    <span class="seal">初中化学 · 互动课堂</span>
+    <h1>墨出青松烟</h1>
+    <p class="quote">—— 一锭松烟墨，半部<i>燃烧化学</i></p>
+    <p class="lead">
+      古人写诗作画用的墨，来自松木在窑中的不完全燃烧。从砍松、烧烟到描金，
+      八道工序里藏着<b>燃烧的条件</b>、<b>碳单质的性质</b>、<b>物理变化与化学变化</b>……
+      让我们沿着一缕青烟，把课本知识"烧"进一锭墨里。
+    </p>
+  </div>
+</header>
+
+<!-- ================= 一、燃烧实验台 ================= -->
+<section class="block" id="lab">
+  <div class="wrap">
+    <h2 class="sec">窑烧实验台 <span class="badge chem">化学变化</span></h2>
+    <p class="sec-sub">拖动<b>空气阀门</b>，观察松木在氧气充足与不足时燃烧有什么不同——这决定了能不能得到制墨的松烟</p>
+    <div class="grid">
+      <div class="card" id="labCanvasBox">
+        <canvas id="labCanvas"></canvas>
+        <span class="lab-tip">窑内燃烧模拟 · 可拖动下方阀门</span>
+        <div class="air-row">
+          <label>空气阀门</label>
+          <input type="range" id="airSlider" min="0" max="100" value="20">
+          <span class="air-val" id="airVal">氧气<b>不足</b> · 冒黑烟</span>
+        </div>
+      </div>
+      <div class="card eq-panel">
+        <span class="badge mode-tag" id="eqTag">空气不足 · 不完全燃烧</span>
+        <div class="eq-main" id="eqMain">2C + O₂ <span class="cond">点燃</span> 2CO
+          <small id="eqSub">氧气不足，部分碳变成一氧化碳气体跑掉，更多碳来不及燃烧——化作黑色微粒（碳黑）随烟析出</small>
+        </div>
+        <p class="eq-note" id="eqNote">
+          <b>为什么松烟是黑的？</b>窑内氧气不足、温度很高，松木中的碳一部分被氧化成 CO/CO₂ 随烟排走，
+          另一部分碳来不及燃烧，以<b>微小碳粒（烟炱，主要成分是碳单质）</b>的形式析出，附着在窑壁上——扫下来就是制墨的松烟。
+        </p>
+        <p class="eq-note">
+          <b>燃烧三条件：</b>①可燃物（松木）②接触氧气（空气阀门）③温度达到着火点（点火）——三者缺一不可。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 二、八步流程 ================= -->
+<section class="block" id="steps">
+  <div class="wrap">
+    <h2 class="sec">古法八步 · 一步步看变化</h2>
+    <p class="sec-sub">点击下方步骤或用键盘 <b>← →</b> 切换，观察每一步的<b>物质变化</b>。想一想：哪一步才是化学变化？</p>
+    <div class="timeline" id="timeline"></div>
+    <div class="step-stage">
+      <div class="card scene-box" id="sceneBox"></div>
+      <div class="card step-info">
+        <h3 id="stTitle"></h3>
+        <p class="sub" id="stSub"></p>
+        <div id="stPoints"></div>
+        <div class="saying" id="stSaying"></div>
+      </div>
+    </div>
+    <div class="step-ctrl">
+      <button class="btn" id="prevBtn">← 上一步</button>
+      <button class="btn primary" id="nextBtn">下一步 →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 三、化学反应（方程式大卡） ================= -->
+<section class="block" id="eq">
+  <div class="wrap">
+    <h2 class="sec">窑火里的化学方程式</h2>
+    <p class="sec-sub">松木的主要成分是<b>碳</b>等元素组成的复杂有机物，为抓住主线，我们用<b>碳</b>来表示它的燃烧</p>
+    <div class="eq-grid">
+      <div class="eq-card card">
+        <span class="tag">完全燃烧 · 氧气充足</span>
+        <div class="f">C + O₂ <span class="cond">点燃</span> CO₂</div>
+        <p class="d"><b>现象：</b>木炭充分燃烧，发出白光、放出大量热。<br>
+        <b>发生的是化学变化</b>：碳与氧气反应生成新物质二氧化碳。<br>
+        <b>启示：</b>氧气充足时碳都"烧掉了"，得不到碳黑，所以制墨窑必须<b>控制进气</b>。</p>
+      </div>
+      <div class="eq-card card warn">
+        <span class="tag">不完全燃烧 · 氧气不足</span>
+        <div class="f">2C + O₂ <span class="cond">点燃</span> 2CO</div>
+        <p class="d"><b>现象：</b>氧气供应不足，产生有毒的一氧化碳。<br>
+        <b>同时</b>：大量碳来不及反应，以<b>碳黑微粒</b>析出——这就是<b>松烟的来源</b>。<br>
+        <b>安全提示：</b>一氧化碳有剧毒，所以烧窑师傅要特别小心通风。</p>
+      </div>
+      <div class="eq-card card">
+        <span class="tag">一氧化碳的再燃烧</span>
+        <div class="f">2CO + O₂ <span class="cond">点燃</span> 2CO₂</div>
+        <p class="d"><b>现象：</b>淡蓝色火焰，放热。<br>
+        <b>说明：</b>CO 还能继续燃烧，说明它仍有可燃性；窑口上方常见蓝色火苗就是它在"补烧"。<br>
+        <b>结论：</b>同一种元素（碳），燃烧条件不同，产物也不同。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 四、成分解析 ================= -->
+<section class="block" id="comp">
+  <div class="wrap">
+    <h2 class="sec">解剖一锭墨 · 成分解析</h2>
+    <p class="sec-sub">点击墨锭上的<b>圆点</b>，看看每种成分是什么物质、有什么化学性质</p>
+    <div class="grid">
+      <div class="card" id="inkSvg">
+        <svg viewBox="0 0 320 240">
+          <!-- 墨锭 -->
+          <defs>
+            <linearGradient id="inkG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#3a352d"/><stop offset="1" stop-color="#211d18"/>
+            </linearGradient>
+          </defs>
+          <rect x="46" y="52" width="228" height="132" rx="14" fill="url(#inkG)" stroke="#141210" stroke-width="2"/>
+          <rect x="58" y="63" width="204" height="110" rx="10" fill="none" stroke="#57503f" stroke-width="1.4" opacity=".7"/>
+          <text x="160" y="112" text-anchor="middle" fill="#d8c07a" font-size="26" letter-spacing="6" font-family="Kaiti SC,STKaiti,KaiTi,serif">松烟墨</text>
+          <text x="160" y="142" text-anchor="middle" fill="#8f8468" font-size="13" letter-spacing="3">千年存墨 · 磨之如漆</text>
+          <!-- 三个热点 -->
+          <g class="hot" data-k="carbon"><circle class="ring" cx="88" cy="84" r="13" fill="rgba(244,240,227,.08)" stroke="#cfc8b4" stroke-width="2" stroke-dasharray="3 3"/>
+            <circle cx="88" cy="84" r="4.5" fill="#f4f0e3"/><text x="88" y="66" text-anchor="middle" fill="#f4f0e3" font-size="13">碳黑</text></g>
+          <g class="hot" data-k="glue"><circle class="ring" cx="232" cy="84" r="13" fill="rgba(244,240,227,.08)" stroke="#cfc8b4" stroke-width="2" stroke-dasharray="3 3"/>
+            <circle cx="232" cy="84" r="4.5" fill="#f4f0e3"/><text x="232" y="66" text-anchor="middle" fill="#f4f0e3" font-size="13">胶</text></g>
+          <g class="hot" data-k="herb"><circle class="ring" cx="160" cy="184" r="13" fill="rgba(244,240,227,.08)" stroke="#cfc8b4" stroke-width="2" stroke-dasharray="3 3"/>
+            <circle cx="160" cy="184" r="4.5" fill="#f4f0e3"/><text x="160" y="212" text-anchor="middle" fill="#f4f0e3" font-size="13">辅料</text></g>
+        </svg>
+      </div>
+      <div class="card comp-detail">
+        <h3 id="cdName"></h3>
+        <p class="pct" id="cdPct"></p>
+        <div class="bar"><i id="cdBar"></i></div>
+        <div id="cdPoints"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 五、变化分类 ================= -->
+<section class="block" id="sort">
+  <div class="wrap">
+    <h2 class="sec">物理变化 还是 化学变化？</h2>
+    <p class="sec-sub">判断依据：<b>有没有生成新物质</b>。八道工序里，只有"窑烧取烟"是化学变化</p>
+    <div class="sort-grid">
+      <div class="card sort-col phys-c">
+        <h3><span class="dot" style="background:var(--phys)"></span>物理变化（无新物质）</h3>
+        <div class="chips">
+          <span class="chip">采松炼脂 · 取出树脂</span>
+          <span class="chip">洗烟分选 · 过滤除杂</span>
+          <span class="chip">熔胶配料 · 加热溶胶</span>
+          <span class="chip">千杵捣墨 · 混合均匀</span>
+          <span class="chip">入模定型 · 改变形状</span>
+          <span class="chip">阴干晾制 · 水分蒸发</span>
+          <span class="chip">描金成墨 · 贴附装饰</span>
+        </div>
+      </div>
+      <div class="card sort-col chem-c">
+        <h3><span class="dot" style="background:var(--chem)"></span>化学变化（生成新物质）</h3>
+        <div class="chips">
+          <span class="chip">窑烧取烟 · 碳与氧气反应，生成 CO₂/CO，析出碳黑</span>
+        </div>
+        <p style="margin-top:16px;font-size:.98rem;color:var(--ink2)">
+          化学变化中，<b style="color:var(--chem)">分子分裂成原子，原子重新组合成新分子</b>——
+          碳、氧原子重新组合成了二氧化碳、一氧化碳，这些新物质的性质与原来的木炭完全不同。
+        </p>
+      </div>
+    </div>
+    <div class="card moral">
+      一句口诀记全课：<b>"千锤百炼是物理，一把窑火出化学；碳黑不溶千年黑，胶锁烟粒墨如漆。"</b>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 六、随堂测验 ================= -->
+<section class="block" id="quiz">
+  <div class="wrap">
+    <h2 class="sec">随堂小测 · 试试身手</h2>
+    <p class="sec-sub">5 道选择题，点击选项立即判分并给出解析</p>
+    <div id="quizBox"></div>
+    <div class="card" id="quizDone">
+      <div class="score" id="scoreNum"></div>
+      <p id="scoreTxt"></p>
+      <div style="margin-top:16px"><button class="btn primary" id="redoBtn">再做一遍</button></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="motto">墨出青松烟 · 笔阵传千年</p>
+  <p>初中化学互动课堂 · 松烟墨中的燃烧化学 ｜ 知识点参照人教版九年级"燃烧与灭火""碳单质""物质变化"</p>
+</footer>
+
+<script>
+"use strict";
+/* ================= 工具 ================= */
+const $=s=>document.querySelector(s);
+const SVGNS="http://www.w3.org/2000/svg";
+const el=(t,attrs)=>{const n=document.createElementNS(SVGNS,t);for(const k in attrs)n.setAttribute(k,attrs[k]);return n;};
+
+/* ================= 首屏飘烟背景 ================= */
+{
+  const cv=$("#sootBg"),ctx=cv.getContext("2d");
+  let W,H,ps=[];
+  const fit=()=>{W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;};
+  fit();addEventListener("resize",fit);
+  for(let i=0;i<26;i++)ps.push({x:Math.random(),y:Math.random(),r:1+Math.random()*2.4,s:.06+Math.random()*.12,o:.05+Math.random()*.14,w:Math.random()*7});
+  (function loop(t){
+    ctx.clearRect(0,0,W,H);
+    for(const p of ps){
+      const x=(p.x+t*.00003*p.s*60)%1.1*W, y=(p.y+Math.sin(t*.0004+p.w)*.02)*H;
+      ctx.beginPath();ctx.arc(x,y,p.r,0,7);
+      ctx.fillStyle=`rgba(43,39,33,${p.o})`;ctx.fill();
+    }
+    requestAnimationFrame(loop);
+  })(0);
+}
+
+/* ================= 一、窑烧实验台 ================= */
+{
+  const cv=$("#labCanvas"),ctx=cv.getContext("2d");
+  const slider=$("#airSlider"),airVal=$("#airVal"),eqTag=$("#eqTag"),eqMain=$("#eqMain"),eqSub=$("#eqSub"),eqNote=$("#eqNote");
+  let W,H;const fit=()=>{W=cv.width=cv.offsetWidth-0;H=cv.height=Math.max(300,Math.round(W*0.62));};
+  fit();addEventListener("resize",fit);
+
+  // 场景元素：窑（左右壁+顶）、柴堆、火焰粒子、烟粒子
+  let flames=[],soots=[],co2=[];
+  function spawn(){
+    const air=+slider.value;
+    const fx=W*0.5+(Math.random()-0.5)*W*0.3;
+    flames.push({x:fx,y:H*0.72,vx:(Math.random()-.5)*.7,vy:-(1.2+Math.random()*1.6),life:1,r:3+Math.random()*6,air});
+  }
+  function step(){
+    const air=+slider.value;                 // 0~100 空气量
+    const rich=air>=55;                      // 氧气充足?
+    if(flames.length<(rich?42:30)&&Math.random()<.6)spawn();
+
+    ctx.clearRect(0,0,W,H);
+    // 背景
+    const bg=ctx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,rich?"#141a1c":"#171310");bg.addColorStop(1,"#0c0a08");
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+
+    // 窑壁（左右弧）
+    ctx.strokeStyle="#4d4436";ctx.lineWidth=10;
+    ctx.beginPath();ctx.arc(W*0.5,H*1.15,W*0.46,Math.PI*1.06,Math.PI*1.94);ctx.stroke();
+    ctx.strokeStyle="#2e2921";ctx.lineWidth=4;
+    ctx.beginPath();ctx.arc(W*0.5,H*1.15,W*0.42,Math.PI*1.08,Math.PI*1.92);ctx.stroke();
+    // 窑口
+    ctx.fillStyle="#060504";
+    ctx.beginPath();ctx.ellipse(W*0.5,H*0.9,W*0.09,H*0.075,0,0,7);ctx.fill();
+    // 柴堆
+    ctx.strokeStyle="#5d4a33";ctx.lineWidth=7;ctx.lineCap="round";
+    for(let i=0;i<4;i++){
+      ctx.beginPath();ctx.moveTo(W*0.38+i*W*0.05,H*0.8);ctx.lineTo(W*0.44+i*W*0.05,H*0.74);ctx.stroke();
+    }
+    ctx.lineCap="butt";
+    // 火焰
+    for(const f of flames){
+      f.x+=f.vx;f.y+=f.vy;f.life-=.022;
+      const richF=air>=55;
+      const col=richF
+        ?`rgba(${120+f.r*10},${190},${255},${f.life*.9})`          // 蓝
+        :`rgba(${230},${120+f.r*8},${30},${f.life*.9})`;           // 橙红
+      ctx.beginPath();ctx.arc(f.x,f.y,f.r*(0.5+f.life),0,7);
+      ctx.fillStyle=col;ctx.fill();
+    }
+    flames=flames.filter(f=>f.life>0);
+
+    // 烟粒子：氧气不足→黑烟颗粒（一部分贴上窑壁变成"松烟"）；充足→少量淡烟
+    if(Math.random()<(air<55?.75:.2)){
+      soots.push({x:W*0.5+(Math.random()-.5)*W*0.2,y:H*0.66,vy:-(.5+Math.random()*.7),vx:(Math.random()-.5)*.9,r:1.5+Math.random()*3,stuck:0,wx:0,wy:0});
+    }
+    for(const s of soots){
+      if(!s.stuck){
+        s.x+=s.vx;s.y+=s.vy;
+        // 触壁判定（左上/右上弧附近）
+        const dx=s.x-W*0.5,dy=s.y-H*0.86,d=Math.hypot(dx/W*2,dy/H);
+        if(d>0.62&&d<0.95&&Math.random()<.3){
+          s.stuck=1;s.wx=s.x;s.wy=s.y;
+        }
+      }
+      ctx.beginPath();ctx.arc(s.stuck?s.wx:s.x,s.stuck?s.wy:s.y,s.r*(s.stuck?.9:1),0,7);
+      ctx.fillStyle=s.stuck?"rgba(15,13,10,.9)":"rgba(30,26,22,.55)";ctx.fill();
+    }
+    if(soots.length>240)soots.splice(0,soots.length-240);
+
+    // 氧气充足时：CO₂ 无色气体示意（淡青色小圈飘散）
+    if(rich&&Math.random()<.4)co2.push({x:W*0.5+(Math.random()-.5)*W*.24,y:H*.6,vy:-(.8+Math.random()),vx:(Math.random()-.5)*1.1,life:1});
+    for(const c of co2){
+      c.x+=c.vx;c.y+=c.vy;c.life-=.012;
+      ctx.beginPath();ctx.arc(c.x,c.y,4,0,7);
+      ctx.strokeStyle=`rgba(150,210,220,${c.life*.5})`;ctx.lineWidth=1.4;ctx.stroke();
+      ctx.font="11px sans-serif";ctx.fillStyle=`rgba(150,210,220,${c.life*.8})`;ctx.fillText("CO₂",c.x+6,c.y);
+    }
+    co2=co2.filter(c=>c.life>0);
+
+    requestAnimationFrame(step);
+  }
+  step();
+
+  slider.addEventListener("input",()=>{
+    const air=+slider.value,rich=air>=55;
+    airVal.innerHTML=rich?`氧气<b>充足</b> · 充分燃烧`:`氧气<b>不足</b> · 冒黑烟`;
+    if(rich){
+      eqTag.textContent="空气充足 · 完全燃烧";
+      eqTag.className="badge mode-tag chem";
+      eqMain.innerHTML=`C + O₂ <span class="cond">点燃</span> CO₂
+        <small id="eqSub">碳充分燃烧生成二氧化碳——木炭烧得干干净净，得不到碳黑</small>`;
+      eqNote.innerHTML=`<b>实验台现象：</b>蓝色火焰、白光，松木逐渐燃尽，只有淡淡青烟。<br>
+        <b>结论：</b>想收集制墨的松烟，就必须<b>关小空气阀门</b>，让窑内氧气不足。`;
+    }else{
+      eqTag.textContent="空气不足 · 不完全燃烧";
+      eqTag.className="badge mode-tag chem";
+      eqMain.innerHTML=`2C + O₂ <span class="cond">点燃</span> 2CO
+        <small id="eqSub">氧气不足，部分碳变成一氧化碳；更多碳来不及燃烧，化作黑色微粒（碳黑）随烟析出</small>`;
+      eqNote.innerHTML=`<b>实验台现象：</b>橙红色火焰、滚滚黑烟，黑色颗粒挂在窑壁上——这就是<b>松烟（主要成分：碳单质）</b>。<br>
+        <b>燃烧三条件：</b>可燃物 + 氧气 + 温度达着火点，阀门控制的正是"氧气"这一条。`;
+    }
+  });
+}
+
+/* ================= 二、八步流程 ================= */
+const STEPS=[
+ {n:"壹",name:"采松炼脂",change:"phys",sub:"选取老松枝干，削去外皮，收集渗出的松脂",
+  pts:[["松脂是什么","松脂是松树分泌的<b>天然有机物</b>（含树脂酸），是混合物，没有固定的熔沸点。"],["准备工作","砍削、收集都只是物质的形状与位置改变，<span class='hl'>没有新物质生成</span>。"]],
+  saying:"《笔阵图》云：其墨取庐山之松烟——好墨先有好松。"},
+ {n:"贰",name:"窑烧取烟",change:"chem",sub:"松木入窑点火，关小气口，令其不完全燃烧，烟炱挂壁",
+  pts:[["唯一的化学变化","碳与氧气在点燃条件下反应，<b>生成新物质</b> CO₂、CO：<span class='hl'>分子分裂、原子重组</span>。"],["松烟的诞生","氧气不足时大量碳来不及燃烧，以<b>碳黑微粒</b>析出，附着窑壁。"],["控制反应条件","燃烧现象与产物取决于<b>氧气的浓度（含量）</b>——古人对『反应条件』的朴素掌控。"]],
+  saying:"曹子建诗：墨出青松烟——一窑火，烧出了化学变化。"},
+ {n:"叁",name:"洗烟分选",change:"phys",sub:"扫下烟炱，过筛去杂，再入水漂洗分轻重",
+  pts:[["碳不溶于水","碳黑放入水中形成<b>悬浊液</b>（固体小颗粒悬浮），静置会沉降——说明碳<span class='hl'>不溶于水</span>。"],["物理分离","过筛、沉淀、撇取，都是<b>混合物的物理分离</b>，各成分本身不变。"]],
+  saying:"轻烟上浮为上品——分选也是一门分离技术。"},
+ {n:"肆",name:"熔胶配料",change:"phys",sub:"动物胶（鹿胶/牛皮胶）加热熔化，掺入药材辅料",
+  pts:[["温度加快溶解","加热使<b>分子运动加快</b>，胶块熔化、溶解得更快。"],["仍是混合","胶溶于水、加入辅料，只是分散混合，<span class='hl'>没有生成新物质</span>。"]],
+  saying:"卫夫人所用『代郡鹿胶』——胶是墨的『骨架』。"},
+ {n:"伍",name:"千杵捣墨",change:"phys",sub:"碳黑与胶液反复捶打，捣至均匀细腻",
+  pts:[["混合均匀","捶打让每一颗碳粒都被胶液<b>包裹</b>，颗粒分散得越来越细。"],["悬浊液的稳定","碳黑本会沉降，胶增加了黏度让碳粒<b>均匀悬浮</b>——墨汁其实是悬浊液。"]],
+  saying:"古诀『轻胶十万杵』——物理加工也能极致精细。"},
+ {n:"陆",name:"入模定型",change:"phys",sub:"墨团压入木模，压出花纹文字",
+  pts:[["形状改变","只改变<b>形状</b>，质量、成分、性质都不变——最典型的物理变化。"],["压强的作用","增大<b>压强</b>使墨团充满模具每一处纹理。"]],
+  saying:"一压一脱，墨有了名字与眉目。"},
+ {n:"柒",name:"阴干晾制",change:"phys",sub:"墨锭置于阴凉处，数月缓慢干燥",
+  pts:[["蒸发现象","水分子不断运动，<span class='hl'>扩散到空气中</span>——这是物理变化。"],["分子在不断运动","阴凉处干燥慢，墨锭不易开裂：温度低，<b>分子运动慢</b>，蒸发平缓。"]],
+  saying:"急火烧不得，慢工等墨干——时间也是工序。"},
+ {n:"捌",name:"描金成墨",change:"phys",sub:"以金粉填描墨锭纹样，一件文房雅器方成",
+  pts:[["金的化学性质极不活泼","金在金属活动性顺序中排最后，<span class='hl'>几乎不与氧气反应</span>，千年金色不暗。"],["碳的常温稳定性","墨迹千年不褪色，因为<b>常温下碳的化学性质不活泼</b>——古画古籍得以留存。"]],
+  saying:"描金点翠，是化学稳定性最美的注脚。"},
+];
+{
+  const tl=$("#timeline"),box=$("#sceneBox");
+  let cur=0;
+  // 构建时间轴
+  STEPS.forEach((s,i)=>{
+    const d=document.createElement("div");
+    d.className=`tl-item ${s.change}`;
+    d.innerHTML=`<div class="n">${s.n}</div><div class="t">${s.name}</div><span class="c">${s.change==="chem"?"化学变化":"物理变化"}</span>`;
+    d.addEventListener("click",()=>go(i));
+    tl.appendChild(d);
+  });
+  const items=[...tl.children];
+
+  // 每步的 SVG 场景（简洁示意 + CSS 动画类）
+  function scene(i){
+    const wrap=document.createElementNS(SVGNS,"svg");
+    wrap.setAttribute("viewBox","0 0 360 300");
+    const s=STEPS[i];
+    const T=(x,y,txt,size=15,fill="#5a5348",anchor="middle")=>{
+      const t=el("text",{x,y,"text-anchor":anchor,"font-size":size,fill,"font-family":"Kaiti SC,STKaiti,KaiTi,serif","letter-spacing":2});
+      t.textContent=txt;return t;};
+    if(i===0){ // 采松
+      wrap.appendChild(el("rect",{x:0,y:250,width:360,height:50,fill:"#c9bfa2"}));
+      const trunk=el("path",{d:"M175 250 L172 120 Q171 100 180 85",stroke:"#6b4f33","stroke-width":12,fill:"none","stroke-linecap":"round"});
+      wrap.appendChild(trunk);
+      for(let k=0;k<4;k++){
+        const y=100+k*38,w=64-k*9;
+        wrap.appendChild(el("path",{d:`M180 ${y-24} Q${180-w} ${y} ${180} ${y+14} Q${180+w} ${y} 180 ${y-24}`,fill:k%2?"#3d6b55":"#4e7f63",opacity:.92}));
+      }
+      const drop=el("circle",{cx:186,cy:170,r:4,fill:"#c98a2e"});
+      wrap.appendChild(drop);
+      const an=el("animate",{attributeName:"cy",from:170,to:250,dur:"1.6s",repeatCount:"indefinite"});
+      drop.appendChild(an);
+      const an2=el("animate",{attributeName:"opacity",values:"1;1;0",dur:"1.6s",repeatCount:"indefinite"});
+      drop.appendChild(an2);
+      wrap.appendChild(T(292,140,"松脂","15","#a67c2e"));
+    }else if(i===1){ // 窑烧
+      wrap.appendChild(el("path",{d:"M60 250 L60 130 Q180 30 300 130 L300 250 Z",fill:"#3a332a"}));
+      wrap.appendChild(el("path",{d:"M80 250 L80 140 Q180 55 280 140 L280 250 Z",fill:"#181410"}));
+      wrap.appendChild(el("rect",{x:150,y:236,width:60,height:16,rx:4,fill:"#5d4a33"}));
+      const fire=el("path",{d:"M180 232 Q160 200 180 168 Q200 200 180 232",fill:"#e06a26"});
+      wrap.appendChild(fire);
+      const fa=el("animate",{attributeName:"d",dur:".7s",repeatCount:"indefinite",
+        values:"M180 232 Q160 200 180 168 Q200 200 180 232;M180 232 Q158 196 182 160 Q202 204 180 232;M180 232 Q160 200 180 168 Q200 200 180 232"});
+      fire.appendChild(fa);
+      for(let k=0;k<5;k++){
+        const c=el("circle",{cx:180,cy:160,r:2.6,fill:"#141210"});
+        c.appendChild(el("animate",{attributeName:"cy",from:160,to:70,dur:(1.4+k*.3)+"s",repeatCount:"indefinite"}));
+        c.appendChild(el("animate",{attributeName:"cx",values:`180;${168+k*6};${174+k*3}`,dur:(1.4+k*.3)+"s",repeatCount:"indefinite"}));
+        c.appendChild(el("animate",{attributeName:"opacity",values:"1;1;0",dur:(1.4+k*.3)+"s",repeatCount:"indefinite"}));
+        wrap.appendChild(c);
+      }
+      wrap.appendChild(T(180,45,"烟炱（碳黑）附着窑壁","14","#5a5348"));
+      wrap.appendChild(T(180,282,"空气不足 · 不完全燃烧","15","#b23b28"));
+    }else if(i===2){ // 洗烟
+      wrap.appendChild(el("path",{d:"M60 160 L300 160 L280 260 L80 260 Z",fill:"#d9e4e2"}));
+      wrap.appendChild(el("path",{d:"M60 160 L300 160 L298 172 L62 172 Z",fill:"#c2d2cf"}));
+      for(let k=0;k<9;k++){
+        const c=el("circle",{cx:100+k*20,cy:200+(k%3)*14,r:2.4,fill:"#241f1a"});
+        c.appendChild(el("animate",{attributeName:"cy",values:`${200+(k%3)*14};${210+(k%3)*12};${200+(k%3)*14}`,dur:(1.8+k*.2)+"s",repeatCount:"indefinite"}));
+        wrap.appendChild(c);
+      }
+      const sieve=el("line",{x1:70,y1:150,x2:290,y2:150,stroke:"#8a7a58","stroke-width":5,"stroke-dasharray":"9 6"});
+      wrap.appendChild(sieve);
+      wrap.appendChild(T(180,130,"过筛 · 水洗","16","#3d6b55"));
+      wrap.appendChild(T(180,285,"碳不溶于水 → 悬浊液","15","#5a5348"));
+    }else if(i===3){ // 熔胶
+      wrap.appendChild(el("path",{d:"M100 150 L260 150 L245 250 L115 250 Z",fill:"#8f8577"}));
+      wrap.appendChild(el("path",{d:"M108 162 L252 162 L240 240 L120 240 Z",fill:"#e8dcc0"}));
+      wrap.appendChild(el("path",{d:"M150 60 L150 140",stroke:"#6b5744","stroke-width":8,"stroke-linecap":"round"}));
+      wrap.appendChild(el("path",{d:"M150 60 Q185 48 208 70",stroke:"#6b5744","stroke-width":8,fill:"none","stroke-linecap":"round"}));
+      for(let k=0;k<5;k++){
+        const b=el("circle",{cx:130+k*25,cy:225,r:3,fill:"#c9b98f"});
+        b.appendChild(el("animate",{attributeName:"cy",values:"225;205;225",dur:(1.1+k*.25)+"s",repeatCount:"indefinite"}));
+        b.appendChild(el("animate",{attributeName:"opacity",values:".4;1;.4",dur:(1.1+k*.25)+"s",repeatCount:"indefinite"}));
+        wrap.appendChild(b);
+      }
+      wrap.appendChild(T(300,120,"加热 → 分子运动加快","14","#b23b28"));
+      wrap.appendChild(T(180,285,"胶块熔化 · 溶解","15","#5a5348"));
+    }else if(i===4){ // 千杵
+      wrap.appendChild(el("rect",{x:70,y:210,width:220,height:44,rx:10,fill:"#2b2721"}));
+      const rod=el("g", {});
+      const handle=el("path",{d:"M180 30 L180 200",stroke:"#6b4f33","stroke-width":12,"stroke-linecap":"round"});
+      const head=el("rect",{x:158,y:196,width:44,height:30,rx:6,fill:"#57503f"});
+      rod.appendChild(handle);rod.appendChild(head);
+      const ra=el("animateTransform",{attributeName:"transform",type:"translate",values:"0 0;0 -34;0 0",dur:"1s",repeatCount:"indefinite",calcMode:"spline",keySplines:".4 0 .6 1;.4 0 .6 1",keyTimes:"0;.5;1"});
+      rod.appendChild(ra);
+      wrap.appendChild(rod);
+      for(let k=0;k<8;k++){
+        const c=el("circle",{cx:105+k*20,cy:228,r:2.2,fill:Math.random()<.5?"#141210":"#d9cfb2"});
+        c.appendChild(el("animate",{attributeName:"cx",values:`${105+k*20};${180+(k-3.5)*22};${105+k*20}`,dur:"2s",repeatCount:"indefinite"}));
+        wrap.appendChild(c);
+      }
+      wrap.appendChild(T(180,285,"捶打 → 颗粒分散均匀","15","#3d6b55"));
+    }else if(i===5){ // 入模
+      wrap.appendChild(el("path",{d:"M70 170 L290 170 L290 230 L70 230 Z",fill:"#8a6b45"}));
+      wrap.appendChild(el("path",{d:"M85 182 L275 182 L275 218 L85 218 Z",fill:"#2b2721"}));
+      const block=el("rect",{x:150,y:100,width:60,height:76,rx:6,fill:"#3a352d"});
+      block.appendChild(el("animate",{attributeName:"y",values:"100;128;128;100",keyTimes:"0;.4;.7;1",dur:"2.4s",repeatCount:"indefinite"}));
+      wrap.appendChild(block);
+      wrap.appendChild(el("rect",{x:120,y:100,width:120,height:14,rx:4,fill:"#6b4f33"}));
+      wrap.appendChild(T(180,268,"形状改变 · 质量不变","15","#3d6b55"));
+      wrap.appendChild(T(180,286,"（物理变化）","13","#8b8270"));
+    }else if(i===6){ // 阴干
+      wrap.appendChild(el("rect",{x:110,y:190,width:140,height:52,rx:10,fill:"#2b2721"}));
+      const lbl1=T(180,222,"松烟墨",15,"#d8c07a");lbl1.setAttribute("letter-spacing",4);
+      wrap.appendChild(lbl1);
+      // 水分子
+      for(let k=0;k<7;k++){
+        const g=el("g",{});
+        const c1=el("circle",{cx:0,cy:0,r:3.4,fill:"#9fb8b5"});
+        const c2=el("circle",{cx:7,cy:-5,r:2.2,fill:"#9fb8b5"});
+        const c3=el("circle",{cx:-6,cy:-6,r:2.2,fill:"#9fb8b5"});
+        g.appendChild(c1);g.appendChild(c2);g.appendChild(c3);
+        const x0=118+k*22;
+        const am=el("animateTransform",{attributeName:"transform",type:"translate",
+          values:`${x0},186; ${x0+14}, ${120-(k%3)*14}; ${x0+22}, ${70-(k%4)*12}`,
+          dur:(2.6+k*.4)+"s",repeatCount:"indefinite"});
+        const ao=el("animate",{attributeName:"opacity",values:"0;1;0",dur:(2.6+k*.4)+"s",repeatCount:"indefinite"});
+        g.appendChild(am);g.appendChild(ao);
+        wrap.appendChild(g);
+      }
+      wrap.appendChild(T(180,96,"H₂O 分子扩散到空气","14","#5a7a78"));
+      wrap.appendChild(T(180,285,"蒸发 · 物理变化","15","#3d6b55"));
+    }else{ // 描金
+      wrap.appendChild(el("rect",{x:90,y:120,width:180,height:104,rx:12,fill:"#2b2721"}));
+      const lbl2=T(180,170,"松烟墨",24,"#e8c56a");lbl2.setAttribute("letter-spacing",6);
+      wrap.appendChild(lbl2);
+      const brush=el("g",{});
+      brush.appendChild(el("path",{d:"M258 66 L216 108",stroke:"#6b4f33","stroke-width":8,"stroke-linecap":"round"}));
+      brush.appendChild(el("path",{d:"M216 108 L206 118 L212 104 Z",fill:"#e8c56a"}));
+      const ba=el("animateTransform",{attributeName:"transform",type:"translate",values:"-30 18; 16 -12; -30 18",dur:"2.8s",repeatCount:"indefinite"});
+      brush.appendChild(ba);
+      wrap.appendChild(brush);
+      wrap.appendChild(T(180,262,"金：金属活动性最末 · 几乎不与氧气反应","13.5","#a67c2e"));
+      wrap.appendChild(T(180,286,"碳常温稳定 → 墨迹千年不褪","13.5","#5a5348"));
+    }
+    return wrap;
+  }
+
+  function go(i){
+    cur=(i+STEPS.length)%STEPS.length;
+    const s=STEPS[cur];
+    items.forEach((it,k)=>it.classList.toggle("on",k===cur));
+    items[cur].scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"});
+    $("#stTitle").innerHTML=`第${s.n}步 · ${s.name} <span class="badge ${s.change}" style="margin-left:10px">${s.change==="chem"?"化学变化":"物理变化"}</span>`;
+    $("#stSub").textContent=s.sub;
+    $("#stPoints").innerHTML=s.pts.map(([b,p])=>
+      `<div class="kp"><span class="ico">✦</span><p><b>${b}：</b>${p}</p></div>`).join("");
+    $("#stSaying").textContent=s.saying;
+    box.innerHTML="";box.appendChild(scene(cur));
+  }
+  $("#prevBtn").addEventListener("click",()=>go(cur-1));
+  $("#nextBtn").addEventListener("click",()=>go(cur+1));
+  addEventListener("keydown",e=>{
+    if(e.key==="ArrowRight")go(cur+1);
+    if(e.key==="ArrowLeft")go(cur-1);
+  });
+  go(0);
+}
+
+/* ================= 四、成分解析 ================= */
+const COMPS={
+ carbon:{name:"碳黑（烟炱）",pct:"约占 60%～75%",bar:68,
+  pts:[["物质类别","<b>碳单质</b>——与木炭、活性炭同属碳的同素异形体家族（无定形碳）。"],["显色原理","极细黑色颗粒均匀铺展，吸收几乎全部可见光，所以<b>又黑又亮</b>。"],["化学稳定性","<b>常温下碳的化学性质不活泼</b>，不易与氧气、水分反应——古画墨迹千年不褪。"],["溶解性","<b>不溶于水</b>，也不能与稀酸、稀碱反应（常温）。"]]},
+ glue:{name:"胶（动物胶）",pct:"约占 20%～30%",bar:26,
+  pts:[["物质类别","<b>蛋白质类高分子有机物</b>（鹿胶、牛皮胶等），是混合物。"],["黏结作用","胶把碳粒<b>包裹黏结</b>成锭；磨墨时又让碳粒均匀悬浮在水中。"],["溶涨性","胶<b>溶于热水</b>（制墨时熔胶的原理），遇冷水吸水膨胀——所以墨锭要防潮。"],["防蛀","配料中加入中药材，可防蛀防腐，属于利用物质的<b>性质</b>服务生活。"]]},
+ herb:{name:"辅料（药材香料）",pct:"约占 1%～5%",bar:4,
+  pts:[["常见成分","麝香、冰片、丁香等，用量极少。"],["作用","防腐、防蛀、增香；改善墨的<b>物理性能</b>（润度、层次）。"],["化学视角","这些也是<b>有机物</b>，用量虽微，却体现古人对『添加剂』的经验运用。"]]}
+};
+{
+  function selectComp(key){
+    const h=document.querySelector(`#inkSvg .hot[data-k="${key}"]`);
+    if(!h)return;
+    document.querySelectorAll("#inkSvg .hot").forEach(x=>x.classList.remove("act"));
+    h.classList.add("act");
+    const c=COMPS[key];
+    $("#cdName").textContent=c.name;
+    $("#cdPct").textContent="质量分数 "+c.pct;
+    $("#cdBar").style.width=c.bar+"%";
+    $("#cdPoints").innerHTML=c.pts.map(([b,p])=>
+      `<div class="kp"><span class="ico">✦</span><p><b>${b}：</b>${p}</p></div>`).join("");
+  }
+  document.querySelectorAll("#inkSvg .hot").forEach(h=>{
+    h.addEventListener("click",()=>selectComp(h.dataset.k));
+  });
+  selectComp("carbon");
+}
+
+/* ================= 六、随堂测验 ================= */
+const QUIZ=[
+ {q:"松烟墨制作的八道工序中，属于化学变化的是：",opts:["千杵捣墨","窑烧取烟","入模定型","阴干晾制"],a:1,
+  e:"只有窑烧中碳与氧气反应生成了 CO₂/CO 等新物质；捶打、定型、晾干都没有新物质生成。"},
+ {q:"用松烟墨写的字画千年不褪色，是因为常温下：",opts:["碳的化学性质不活泼","碳很坚硬","碳能燃烧","黑色最醒目"],a:0,
+  e:"碳原子最外层结构稳定，常温下不易与其他物质反应，所以墨迹能保存千年。"},
+ {q:"木炭在氧气中充分燃烧的化学方程式是：",opts:["2C + O₂ →(点燃) 2CO","C + O₂ →(点燃) CO₂","2CO + O₂ →(点燃) 2CO₂","C + CO₂ →(高温) 2CO"],a:1,
+  e:"充分（完全）燃烧的产物是二氧化碳；A 是氧气不足时的不完全燃烧。"},
+ {q:"墨锭阴干过程中，水分子：",opts:["停止运动","不断运动并扩散到空气中","变成了碳分子","被金粉吸收"],a:1,
+  e:"蒸发是水分子不断运动、扩散到空气中的过程，没有新物质生成，属物理变化。"},
+ {q:"墨锭上的描金历经千年依然金光灿灿，说明金的：",opts:["金属活动性强","化学性质极不活泼","密度很大","导电性好"],a:1,
+  e:"金在金属活动性顺序中排最末，几乎不与氧气反应，因此『真金不怕火炼』『金身千年』。"}
+];
+{
+  const box=$("#quizBox");
+  let right=0,done=0;
+  function render(){
+    box.innerHTML="";right=0;done=0;$("#quizDone").style.display="none";
+    QUIZ.forEach((item,qi)=>{
+      const card=document.createElement("div");
+      card.className="card q-item";
+      card.innerHTML=`<h4><span class="qno">${qi+1}.</span>${item.q}</h4>`;
+      const opts=document.createElement("div");opts.className="opts";
+      const expl=document.createElement("div");expl.className="q-expl";
+      item.opts.forEach((o,oi)=>{
+        const b=document.createElement("button");
+        b.className="opt";b.textContent=String.fromCharCode(65+oi)+". "+o;
+        b.addEventListener("click",()=>{
+          if(card.dataset.done)return;
+          card.dataset.done="1";done++;
+          [...opts.children].forEach((x,k)=>{
+            x.disabled=true;
+            if(k===item.a)x.classList.add("right");
+          });
+          if(oi===item.a){right++;}else{b.classList.add("wrong");}
+          expl.style.display="block";
+          if(done===QUIZ.length){
+            $("#scoreNum").textContent=right+" / "+QUIZ.length;
+            $("#scoreTxt").textContent=right===5?"满分！窑火里烧出的化学，你已经全掌握了。":right>=3?"不错！再回顾一遍'变化分类'与'方程式'部分，向满分冲刺。":"别灰心，回到'八步流程'再看一遍，你会有新的发现。";
+            $("#quizDone").style.display="block";
+            $("#quizDone").scrollIntoView({behavior:"smooth",block:"center"});
+          }
+        });
+        opts.appendChild(b);
+      });
+      expl.innerHTML=`<b>解析：</b>${item.e}`;
+      card.appendChild(opts);card.appendChild(expl);
+      box.appendChild(card);
+    });
+  }
+  $("#redoBtn").addEventListener("click",render);
+  render();
+}
+
+/* ================= 导航高亮 ================= */
+{
+  const links=[...document.querySelectorAll("nav.top a")];
+  const secs=links.map(a=>document.querySelector(a.getAttribute("href")));
+  addEventListener("scroll",()=>{
+    let idx=0;
+    secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<innerHeight*0.4)idx=i;});
+    links.forEach((l,i)=>l.classList.toggle("on",i===idx));
+  },{passive:true});
+}
+</script>
+</body>
+</html>
